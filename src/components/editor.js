@@ -45,7 +45,6 @@ const Editor = ({ user, provider, ydoc }) => {
     extensions: TiptapExtensions,
     content: ydoc.getText('content').toString(),
     onUpdate: ({ editor }) => {
-      // This ensures updates trigger IndexedDB persistence
       const text = editor.getHTML();
       console.log('Editor updated:', text);},
   });
