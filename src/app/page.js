@@ -7,7 +7,6 @@ import { getAllDocuments, addDocument } from "../utils/indexeddb";
 export default function HomePage() {
   const [documents, setDocuments] = useState([]);
 
-  // Fetch documents from IndexedDB when the page loads
   useEffect(() => {
     async function fetchDocuments() {
       const docs = await getAllDocuments();
@@ -16,7 +15,6 @@ export default function HomePage() {
     fetchDocuments();
   }, []);
 
-  // Create a new document and update the state
   const handleCreateDocument = async () => {
     const newDoc = {
       id: crypto.randomUUID(),

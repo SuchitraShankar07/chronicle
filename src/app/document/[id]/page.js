@@ -18,7 +18,7 @@ const DocumentPage = ({ params }) => {
   useEffect(() => {
     (async () => {
       if (params) {
-        const unwrappedParams = await params; // Await params if it's a Promise
+        const unwrappedParams = await params; 
         setId(unwrappedParams.id);
       }
     })();

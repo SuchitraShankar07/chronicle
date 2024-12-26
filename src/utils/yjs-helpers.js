@@ -1,7 +1,7 @@
 import * as Y from 'yjs';
 import { WebrtcProvider } from 'y-webrtc';
-
-const docsMap = new Map(); // Map to store Y.Docs for each room/document
+//implementation considering the entire app to be one workspace, upgrading this in iter2 to make diff workspaces
+const docsMap = new Map(); 
 
 /**
  * Retrieve or create a Y.Doc for a specific document (room).
@@ -14,8 +14,6 @@ function getYDoc(docId) {
     const provider = new WebrtcProvider(docId, newDoc);
 
     docsMap.set(docId, { yDoc: newDoc, provider });
-
-    // Optional: Log or handle syncing events
     provider.on('synced', () => {
       console.log(`Synced with room: ${docId}`);
     });
@@ -34,8 +32,8 @@ function getYDoc(docId) {
 function cleanupYDoc(docId) {
   if (docsMap.has(docId)) {
     const { provider } = docsMap.get(docId);
-    provider.destroy(); // Clean up WebRTC provider
-    docsMap.delete(docId); // Remove the document from the map
+    provider.destroy(); 
+    docsMap.delete(docId); 
     console.log(`Cleaned up Y.Doc for document: ${docId}`);
   }
 }
