@@ -1,10 +1,16 @@
 "use client";
 
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import Header from "../components/Header";
+import RecentFiles from "../components/RecentFiles";
+import UploadArea from "../components/UploadArea";
+import FileList from "../components/FileList";
+import Sidebar from "../components/Sidebar";
 import { getAllDocuments, addDocument } from "../utils/indexeddb";
 
-export default function HomePage() {
+export default function Home() {
+  const [files, setFiles] = useState([]);
   const [documents, setDocuments] = useState([]);
 
   useEffect(() => {
@@ -26,30 +32,53 @@ export default function HomePage() {
     setDocuments((prevDocs) => [...prevDocs, newDoc]);
   };
 
-  return (
-    <div className="p-8">
-      <h1 className="text-3xl font-bold mb-4">Your Documents</h1>
-      <button
-        onClick={handleCreateDocument}
-        className="bg-blue-500 text-white px-4 py-2 rounded mb-4 hover:bg-blue-600"
-      >
-        Create New Document
-      </button><ul className="space-y-4">
-  {documents.map((doc) => (
-    <li key={doc.id} className="border-b pb-2">
-      <Link
-        href={`/document/${doc.id}`}
-        className="text-blue-500 hover:underline"
-      >
-        {doc.title}
-      </Link>
-      <p className="text-gray-600 text-sm">
-        Created on: {new Date(doc.timestamp).toLocaleString()}
-      </p>
-    </li>
-  ))}
-</ul>
+  const handleFileUpload = (uploadedFiles) => {
+    const newFiles = Array.from(uploadedFiles).map((file) => ({
+      name: file.name,
+      shared: "N/A",
+      size: `${(file.size / 1024).toFixed(2)} KB`, 
+      modified: new Date().toLocaleDateString(),
+    }));
+    setFiles((prevFiles) => [...prevFiles, ...newFiles]);
+  };
 
+  return (
+    <div className="flex" style={{ backgroundColor: "#1d1e22" }}>
+      <Sidebar />
+      <div className="flex-1 p-12">
+        <Header />
+        <RecentFiles />
+        <UploadArea onFileUpload={handleFileUpload} />
+
+        <div className="mt-8">
+          <h1 className="text-3xl font-bold mb-4 text-white">
+            Your Documents
+          </h1>
+          <button
+            onClick={handleCreateDocument}
+            className="bg-blue-500 text-white px-4 py-2 rounded mb-4 hover:bg-blue-600"
+          >
+            Create New Document
+          </button>
+          <ul className="space-y-4">
+            {documents.map((doc) => (
+              <li key={doc.id} className="border-b pb-2 text-white">
+                <Link
+                  href={`/document/${doc.id}`}
+                  className="text-blue-400 hover:underline"
+                >
+                  {doc.title}
+                </Link>
+                <p className="text-gray-400 text-sm">
+                  Created on: {new Date(doc.timestamp).toLocaleString()}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <FileList files={files} />
+      </div>
     </div>
   );
 }

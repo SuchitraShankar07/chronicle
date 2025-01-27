@@ -3,11 +3,7 @@ import { WebrtcProvider } from 'y-webrtc';
 //implementation considering the entire app to be one workspace, upgrading this in iter2 to make diff workspaces
 const docsMap = new Map(); 
 
-/**
- * Retrieve or create a Y.Doc for a specific document (room).
- * @param {string} docId - The unique ID of the document.
- * @returns {Y.Doc} The Y.Doc for the specified document.
- */
+
 function getYDoc(docId) {
   if (!docsMap.has(docId)) {
     const newDoc = new Y.Doc();
