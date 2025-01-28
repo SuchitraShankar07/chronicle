@@ -50,7 +50,7 @@ const Editor = ({ user, provider, ydoc }) => {
   });
 
   return (
-    <div className="markdown-editor tiptap bg-white border rounded shadow">
+    <div className="markdown-editor tiptap border rounded shadow">
       <EditorContent editor={editor} />
     </div>
   );
