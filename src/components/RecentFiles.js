@@ -17,7 +17,6 @@ export default function RecentFiles() {
   const handleDelete = (id) => {
     const updatedFiles = files.filter((file) => file.id !== id);
     setFiles(updatedFiles);
-    // alert('File deleted');
   };
 
   return (
@@ -28,8 +27,8 @@ export default function RecentFiles() {
       </div>
       <div className="grid grid-cols-3 gap-4">
         {files.map((file) => (
-          <div key={file.id} className="p-4 bg-gray-100 rounded shadow">
-            <span className="block mb-2">{file.name}</span>
+          <div key={file.id} className="p-4 bg-gray-700 rounded shadow">
+            <span className="block  mb-2">{file.name}</span>
             <button
               className="bg-gray-300 px-2 py-1 rounded mr-2"
               onClick={() => handleCopy(file.name)}

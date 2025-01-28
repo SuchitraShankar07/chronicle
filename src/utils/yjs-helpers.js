@@ -19,12 +19,7 @@ function getYDoc(docId) {
 
   return docsMap.get(docId).yDoc;
 }
-
-/**
- * Cleanup logic for a document.
- * Call this when the user leaves a document or room.
- * @param {string} docId - The unique ID of the document.
- */
+//call this when user leaves a doc/ by extension a room
 function cleanupYDoc(docId) {
   if (docsMap.has(docId)) {
     const { provider } = docsMap.get(docId);

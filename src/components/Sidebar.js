@@ -1,12 +1,11 @@
-// components/Sidebar.js
 import { useState, useEffect } from 'react';
 import randomEmoji from 'random-emoji';
 
-export default function Sidebar() {
+export default function Sidebar(handleCreateDocument) {
   const [emoji, setEmoji] = useState('');
   const [color, setColor] = useState('');
 
-  const handleAddMd = () => alert('Add md functionality coming soon!');
+  const handleAddMd = () => handleCreateDocument;
   const handleAddWhiteboard = () => alert('Add whiteboard functionality coming soon!');
   const handleJoin = () => alert('Join functionality coming soon!');
 

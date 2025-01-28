@@ -44,7 +44,7 @@ export default function Home() {
 
   return (
     <div className="flex" style={{ backgroundColor: "#1d1e22" }}>
-      <Sidebar />
+      <Sidebar handleCreateDocument={handleCreateDocument}/>
       <div className="flex-1 p-12">
         <Header />
         <RecentFiles />
@@ -77,7 +77,6 @@ export default function Home() {
           </ul>
         </div>
 
-        <FileList files={files} />
       </div>
     </div>
   );
