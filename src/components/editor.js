@@ -1,28 +1,23 @@
-  /* eslint-disable @typescript-eslint/no-unused-vars */
-  /* eslint-disable react/prop-types */
-  import React, { useState } from 'react';
-  import { useEditor, EditorContent } from '@tiptap/react';
-  import StarterKit from '@tiptap/starter-kit';
-  import Highlight from '@tiptap/extension-highlight';
-  import HorizontalRule from '@tiptap/extension-horizontal-rule';
-  import Document from '@tiptap/extension-document';
-  import Paragraph from '@tiptap/extension-paragraph';
-  import Text from '@tiptap/extension-text';
-  import Heading from '@tiptap/extension-heading';
-  import { InputRule } from '@tiptap/core';
-  import TaskItem from '@tiptap/extension-task-item';
-  import TaskList from '@tiptap/extension-task-list';
-  import Mention from '@tiptap/extension-mention';
-
-  import Collaboration from '@tiptap/extension-collaboration';
-  import CollaborationCursor from '@tiptap/extension-collaboration-cursor';
-  import { WebrtcProvider } from 'y-webrtc';
-  import * as Y from 'yjs';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react/prop-types */
+import React, { useState } from 'react';
+import { useEditor, EditorContent } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+import Highlight from '@tiptap/extension-highlight';
+import HorizontalRule from '@tiptap/extension-horizontal-rule';
+import Document from '@tiptap/extension-document';
+import Paragraph from '@tiptap/extension-paragraph';
+import Text from '@tiptap/extension-text';
+import Heading from '@tiptap/extension-heading';
+import TaskItem from '@tiptap/extension-task-item';
+import TaskList from '@tiptap/extension-task-list';
+import Mention from '@tiptap/extension-mention';
+import { InputRule } from '@tiptap/core';
+import Collaboration from '@tiptap/extension-collaboration';
+import CollaborationCursor from '@tiptap/extension-collaboration-cursor';
 
 
-  const ydoc = new Y.Doc();
-  const provider = new WebrtcProvider('Chronicle', ydoc);
-
+const Editor = ({ user, provider, ydoc }) => {
   const TiptapExtensions = [
     Document,
     Paragraph,
@@ -116,36 +111,32 @@
     Heading.configure({
       levels: [1, 2, 3, 4, 5, 6],
     }),
+    Collaboration.configure({
+      document: ydoc,
+    }),
+    CollaborationCursor.configure({
+      provider: provider,
+      user: { 
+        name: user.name,
+        color: '#0F0F',
+      },
+    }),
   ];
 
-  const Editor = ({ user }) => {
-    const [markdownContent, setMarkdownContent] = useState('');
+  const editor = useEditor({
+    extensions: TiptapExtensions,
+    content: ydoc.getText('content').toString(),
+    onUpdate: ({ editor }) => {
+      const text = editor.getHTML();
+      console.log('Editor updated:', text);},
+  });
 
-    const editor = useEditor({
-      extensions: [
-        ...TiptapExtensions,
-        Collaboration.configure({
-          document: ydoc,
-        }),
-        CollaborationCursor.configure({
-          provider: provider,
-          user: {
-            name: 'Anonymous',
-            color: '#0F0F',
-          },
-        }),
-      ],
-      content: '<h1>Hello Chronicle!</h1><h2>A real-time markdown editor</h2>',
-      onUpdate: ({ editor }) => {
-        setMarkdownContent(editor.getHTML());
-      },
-    });
 
-    return (
-      <div className="markdown-editor tiptap">
-        <EditorContent editor={editor} />
-      </div>
-    );
-  };
+  return (
+    <div className="markdown-editor tiptap border rounded shadow">
+      <EditorContent editor={editor} />
+    </div>
+  );
+};
 
-  export default Editor;
+export default Editor;
