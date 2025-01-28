@@ -34,7 +34,7 @@ const DocumentPage = ({ params }) => {
         console.log(`Document ${id} has been loaded from IndexedDB`);
       });
 
-      const provider = new WebrtcProvider(id, ydoc, {signaling:['ws://chroniclesignalling.anuragrao.me:6969']});
+      const provider = new WebrtcProvider(id, ydoc, {signaling:['ws://139.59.9.58:4444']});
       setProvider(provider);
 
       return () => {
